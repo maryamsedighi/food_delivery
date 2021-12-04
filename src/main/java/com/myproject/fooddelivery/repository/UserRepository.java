@@ -16,4 +16,10 @@ public interface UserRepository extends JpaRepository<UserTable, Integer> {
     @Query("select u from UserTable u where u.userAdmin.id=?1")
     List<UserTable> findAllUsersByAdmin(Integer adminId);
 
+    UserTable findUserTablesByUserCode(String userCode);
+
+    Long countUserTableByUserAdmin(UserTable user);
+
+    @Query("select u from UserTable u where u.isAdmin=true")
+    List<UserTable> findAllAdmins();
 }

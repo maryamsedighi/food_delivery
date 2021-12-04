@@ -1,7 +1,6 @@
 package com.myproject.fooddelivery.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,6 +10,9 @@ import java.util.List;
 @Table(name = "user")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserTable implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +23,7 @@ public class UserTable implements Serializable {
     private String userName;
     private String password;
     private Boolean isAdmin;
+    private String userCode;
 
     @ManyToOne
     private UserTable userAdmin;

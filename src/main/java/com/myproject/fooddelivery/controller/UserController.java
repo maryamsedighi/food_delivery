@@ -76,7 +76,9 @@ public class UserController {
         }
         UserDto userDto = new UserDto();
         userDto.setUserAdminId(SessionTools.getUser(servletRequest).getId());
+        HashMap<Integer, String> admins = userService.findAllAdmins();
         return new ModelAndView("user/newEdit", new HashMap() {{
+            put("admins", admins);
             put("user", userDto);
         }});
     }
@@ -96,4 +98,39 @@ public class UserController {
             }});
         }
     }
+
+    @GetMapping(path = "/edit/{id}")
+    public ModelAndView editUser(@PathVariable("id") Integer id, HttpServletRequest servletRequest) {
+        if (Objects.isNull(SessionTools.getUser(servletRequest))) {
+            return new ModelAndView("redirect:/user/login");
+        }
+        try {
+            UserDto user = userService.getUserDtoById(id);
+            return new ModelAndView("user/newEdit", new HashMap() {{
+                put("user", user);
+            }});
+        } catch (FoodDeliveryException e) {
+            return new ModelAndView("core/error", new HashMap() {{
+                put("code", e.getCode());
+                put("message", e.getMessage());
+            }});
+        }
+    }
+
+    @GetMapping(path = "/delete/{id}")
+    public ModelAndView delete(@PathVariable("id") Integer id, HttpServletRequest servletRequest) {
+        if (Objects.isNull(SessionTools.getUser(servletRequest))) {
+            return new ModelAndView("redirect:/user/login");
+        }
+        try {
+            userService.delete(id);
+            return new ModelAndView("redirect:/user/list");
+        } catch (FoodDeliveryException e) {
+            return new ModelAndView("core/error", new HashMap() {{
+                put("code", e.getCode());
+                put("message", e.getMessage());
+            }});
+        }
+    }
+
 }

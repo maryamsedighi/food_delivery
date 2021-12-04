@@ -50,6 +50,20 @@
                 <div class="row">
                     <div class="col-md-6 pr-1">
                         <div class="form-group">
+                            <form:label path="password">Password:</form:label>
+                            <form:password path="password" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="col-md-6 pr-1">
+                        <div class="form-group">
+                            <form:label path="userCode">userCode:</form:label>
+                            <form:input path="userCode" class="form-control" placeholder="userCode"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 pr-1">
+                        <div class="form-group">
                             <form:label path="isAdmin">Is Admin?</form:label>
                             <form:select path="isAdmin" class="form-control">
                                 <form:option value="0">no</form:option>
@@ -59,8 +73,12 @@
                     </div>
                     <div class="col-md-6 pr-1">
                         <div class="form-group">
-                            <form:label path="password">Password:</form:label>
-                            <form:password path="password" class="form-control"/>
+                            <form:label path="userAdminId">AdminList:</form:label>
+                            <form:select path="userAdminId" class="form-control" placeholder="adminList">
+                                <c:forEach items="${Admins}" var="admin">
+                                    <form:option value="${admin.key}">${admin.value}</form:option>
+                                </c:forEach>
+                            </form:select>
                         </div>
                     </div>
                 </div>
@@ -70,11 +88,9 @@
                     </div>
                 </div>
                 <form:hidden path="id"/>
-                <form:hidden path="userAdminId"/>
             </form:form>
         </div>
     </div>
 </div>
-
 
 <%@include file="../template/footer.jsp" %>

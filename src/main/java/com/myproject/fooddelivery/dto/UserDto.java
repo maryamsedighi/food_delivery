@@ -1,10 +1,12 @@
 package com.myproject.fooddelivery.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDto {
     private Integer id;
     private String fullName;
@@ -14,4 +16,5 @@ public class UserDto {
     private String password;
     private Boolean isAdmin;
     private Integer userAdminId;
+    private String userCode;
 }

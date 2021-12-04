@@ -15,6 +15,8 @@ public class ErrorCodes {
     public static final String EMAIL_IS_NULL = "011";
     public static final String FIELD_IS_EMPTY = "012";
     public static final String LENGTH_LESS = "013";
+    public static final String CODE_IS_EXISTS = "014";
+    public static final String USER_IS_ADMIN = "015";
 
 
 }

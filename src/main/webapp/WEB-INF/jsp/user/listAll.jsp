@@ -31,6 +31,9 @@
                         userName
                     </th>
                     <th>
+                        userCode
+                    </th>
+                    <th>
                         tools
                     </th>
                 </tr>
@@ -55,7 +58,11 @@
                                 ${user.userName}
                         </td>
                         <td>
-
+                                ${user.userCode}
+                        </td>
+                        <td>
+                            <a href="/user/edit/${user.id}" class="btn btn-info">Edit</a>
+                            <a href="/user/delete/${user.id}" class="btn btn-info">Delete</a>
                         </td>
                     </tr>
                 </c:forEach>

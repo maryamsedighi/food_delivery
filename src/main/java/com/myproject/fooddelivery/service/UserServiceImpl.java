@@ -11,6 +11,7 @@ import com.myproject.fooddelivery.tools.ValidationTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,6 +20,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Override
+    public Long countSubUserOfUser(UserTable userId) {
+        Long count = userRepository.countUserTableByUserAdmin(userId);
+        return count;
+    }
 
     @Override
     public UserTable login(LoginDto loginDto) throws FoodDeliveryException {
@@ -33,7 +40,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserTable> listSubUsers(Integer userId) throws FoodDeliveryException {
         UserTable user = userRepository.findById(userId).orElseThrow(
-                () -> new FoodDeliveryException(ErrorCodes.USER_NOT_FOUND, "the user not exist")
+                () -> new FoodDeliveryException(ErrorCodes.USER_NOT_FOUND, "the user is not exists")
         );
         List<UserTable> allUsers = userRepository.findAllUsersByAdmin(userId);
         return allUsers;
@@ -51,25 +58,68 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    private UserTable convertFromDtoToUser(UserDto userDto) throws FoodDeliveryException {
-        UserTable user = new UserTable();
-        user.setFullName(userDto.getFullName());
-        user.setContact(userDto.getContact());
-        user.setEmail(userDto.getEmail());
-        user.setUserName(userDto.getUserName());
-        user.setPassword(EncryptTools.encryptPassword(userDto.getPassword()));
-        user.setIsAdmin(userDto.getIsAdmin());
-        if (Objects.nonNull(userDto.getUserAdminId())) {
-            user.setUserAdmin(getUserById(userDto.getUserAdminId()));
+    private UserTable convertFromDtoToUser(UserDto userDto) {
+        UserTable.UserTableBuilder userBuilder = UserTable.builder().
+                userName(userDto.getUserName())
+                .userCode(userDto.getUserCode())
+                .contact(userDto.getContact())
+                .email(userDto.getEmail())
+                .fullName(userDto.getFullName())
+                .password(userDto.getPassword())
+                .isAdmin(userDto.getIsAdmin());
+        if (Objects.nonNull(userDto.getId())) {
+            userBuilder.id(userDto.getId());
         }
-        return user;
+        return userBuilder.build();
 
     }
 
     @Override
-    public UserTable getUserById(Integer userAdminId) {
-        UserTable user = userRepository.findById(userAdminId).orElseGet(null);
+    public UserTable getUserById(Integer id) throws FoodDeliveryException {
+        UserTable user = userRepository.findById(id).orElseGet(null);
+        if (Objects.isNull(user)) {
+            throw new FoodDeliveryException(ErrorCodes.USER_NOT_FOUND, "the user is not exists");
+        }
         return user;
+    }
+
+    @Override
+    public UserDto getUserDtoById(Integer id) throws FoodDeliveryException {
+        UserTable user = getUserById(id);
+        UserDto userDto = UserDto.builder()
+                .id(user.getId())
+                .fullName(user.getFullName())
+                .contact(user.getContact())
+                .email(user.getEmail())
+                .userName(user.getUserName())
+                .userCode(user.getUserCode())
+                .password(user.getPassword())
+                .isAdmin(user.getIsAdmin())
+                .build();
+
+        return userDto;
+    }
+
+    @Override
+    public void delete(Integer id) throws FoodDeliveryException {
+        UserTable userId = getUserById(id);
+        validateDelete(userId);
+        userRepository.delete(userId);
+    }
+
+    @Override
+    public HashMap<Integer, String> findAllAdmins() {
+
+        HashMap<Integer, String> admins = new HashMap<>();
+        userRepository.findAllAdmins().forEach(user -> admins.put(user.getId(), user.getFullName()));
+        return admins;
+    }
+
+    private void validateDelete(UserTable userId) throws FoodDeliveryException {
+        Long countSubUserOfUser = countSubUserOfUser(userId);
+        if (countSubUserOfUser != 0L) {
+            throw new FoodDeliveryException(ErrorCodes.USER_IS_ADMIN, "user is admin and can not be delete");
+        }
     }
 
     private void validateSave(UserDto userDto) throws FoodDeliveryException {
@@ -81,8 +131,15 @@ public class UserServiceImpl implements UserService {
         ValidationTools.validateEmptyField(userDto.getFullName(), "name");
         ValidationTools.validateEmptyField(userDto.getEmail(), "email");
         ValidationTools.validateEmptyField(userDto.getContact(), "contact");
-
+        UserTable userByUserCode = getUserByCode(userDto.getUserCode());
+        if (Objects.nonNull(userByUserCode)) {
+            throw new FoodDeliveryException(ErrorCodes.CODE_IS_EXISTS, "entry code is exists");
+        }
         ValidationTools.validationFieldLength(userDto.getPassword(), 6, "password");
+    }
+
+    private UserTable getUserByCode(String userCode) {
+        return userRepository.findUserTablesByUserCode(userCode);
     }
 
     private void validateLogin(LoginDto loginDto) throws FoodDeliveryException {
