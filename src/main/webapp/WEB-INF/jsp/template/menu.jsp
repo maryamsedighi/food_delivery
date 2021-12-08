@@ -1,3 +1,6 @@
+<%@ page import="com.myproject.fooddelivery.model.UserTable" %>
+<%@ page import="com.myproject.fooddelivery.code.FoodDeliveryCode" %>
+<%@ page import="java.util.Objects" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="sidebar" data-color="white" data-active-color="danger">
     <div class="logo">
@@ -5,35 +8,56 @@
             <div class="logo-image-small">
                 <img src="../assets/img/food1.png">
             </div>
-            <!-- <p>CT</p> -->
         </a>
         <p class="simple-text logo-normal">
             FOOD DELIVERY
-            <!-- <div class="logo-image-big">
-              <img src="../assets/img/logo-big.png">
-            </div> -->
         </p>
     </div>
     <div class="sidebar-wrapper">
         <ul class="nav">
-            <li>
+            <%
+                UserTable user = (UserTable) session.getAttribute(FoodDeliveryCode.USER_SESSION);
+                if (Objects.nonNull(user)) {
+            %>
+            <li class="active ">
                 <a href="/">
                     <i class="nc-icon nc-bank"></i>
                     <p>Dashboard</p>
                 </a>
             </li>
             <li>
-                <a href="./user/list">
-                    <i class="nc-icon nc-diamond"></i>
+                <a href="/user/list">
+                    <i class="nc-icon nc-satisfied"></i>
                     <p>user manager</p>
                 </a>
             </li>
             <li>
-                <a href="./user/logout">
-                    <i class="nc-icon nc-diamond"></i>
+                <a href="/customer/list">
+                    <i class="nc-icon nc-single-02"></i>
+                    <p>customer manager</p>
+                </a>
+            </li>
+            <li>
+                <a href="/restaurant/list">
+                    <i class="nc-icon nc-shop"></i>
+                    <p>restaurant manager</p>
+                </a>
+            </li>
+            <li>
+                <a href="/order/list">
+                    <i class="nc-icon nc-delivery-fast"></i>
+                    <p>order manager</p>
+                </a>
+            </li>
+            <li>
+                <a href="/user/logout">
+                    <i class="nc-icon nc-touch-id"></i>
                     <p>logout</p>
                 </a>
             </li>
+            <%
+                }
+            %>
         </ul>
     </div>
 </div>

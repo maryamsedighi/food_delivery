@@ -1,7 +1,6 @@
 package com.myproject.fooddelivery.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,6 +10,9 @@ import java.util.Date;
 @Table
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class RestaurantSite implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

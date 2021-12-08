@@ -1,7 +1,6 @@
 package com.myproject.fooddelivery.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,6 +11,9 @@ import java.util.List;
 @Table(name = "orders")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class OrderTable implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
