@@ -1,6 +1,7 @@
 package com.myproject.fooddelivery.controller;
 
 import com.myproject.fooddelivery.code.FoodDeliveryCode;
+import com.myproject.fooddelivery.dto.CustomerDto;
 import com.myproject.fooddelivery.dto.LoginDto;
 import com.myproject.fooddelivery.exception.FoodDeliveryException;
 import com.myproject.fooddelivery.model.Customer;
@@ -22,6 +23,7 @@ public class CustomerController {
     @Autowired
     CustomerService customerService;
 
+    //it is used in customer form
     @GetMapping(path = "/login")
     public ModelAndView login(HttpServletRequest servletRequest) {
         return new ModelAndView("customer/login", new HashMap() {{
@@ -29,6 +31,7 @@ public class CustomerController {
         }});
     }
 
+    //it is used in customer form
     @PostMapping(path = "/login")
     public ModelAndView login(@ModelAttribute("login") LoginDto loginDto, HttpServletRequest servletRequest) {
         try {
@@ -43,6 +46,7 @@ public class CustomerController {
         return new ModelAndView("redirect:/");
     }
 
+    //it is used in customer form
     @GetMapping(path = "/logout")
     public ModelAndView logout(HttpServletRequest servletRequest) {
         servletRequest.removeAttribute(FoodDeliveryCode.USER_SESSION);
@@ -60,6 +64,32 @@ public class CustomerController {
                 put("customerList", customerList);
             }}
             );
+        } catch (FoodDeliveryException e) {
+            return new ModelAndView("core/error", new HashMap() {{
+                put("code", e.getCode());
+                put("message", e.getMessage());
+            }});
+        }
+    }
+
+    //it is used in customer form
+    @GetMapping(path = "/signIn")
+    public ModelAndView signIn(HttpServletRequest servletRequest) {
+        if (Objects.nonNull(SessionTools.getCustomer(servletRequest))) {
+            return new ModelAndView("redirect:/customer/login");
+        }
+        CustomerDto customerDto = new CustomerDto();
+        return new ModelAndView("user/newEdit", new HashMap() {{
+            put("customer", customerDto);
+        }});
+    }
+
+    //it is used in customer form
+    @PostMapping(path = "/signIn")
+    public ModelAndView signIn(@ModelAttribute("customer") CustomerDto customerDto) {
+        try {
+            customerService.save(customerDto);
+            return new ModelAndView("redirect:/customer/login");
         } catch (FoodDeliveryException e) {
             return new ModelAndView("core/error", new HashMap() {{
                 put("code", e.getCode());
