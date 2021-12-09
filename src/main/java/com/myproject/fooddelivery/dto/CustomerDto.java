@@ -10,6 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 public class CustomerDto {
 
+    private Integer Id;
     private String firstName;
     private String lastName;
     private String email;
@@ -20,6 +21,4 @@ public class CustomerDto {
     private AccountStatus accountStatus;
     private byte[] photo;
 
-    public void setUserAdminId(Object user) {
-    }
 }
