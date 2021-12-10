@@ -16,4 +16,6 @@ public interface CustomerService {
     List<Customer> customerList() throws FoodDeliveryException;
 
     void save(CustomerDto customerDto) throws FoodDeliveryException;
+
+    CustomerDto getCustomerDtoById(Integer id) throws FoodDeliveryException;
 }
