@@ -5,6 +5,7 @@ import com.myproject.fooddelivery.dto.CustomerDto;
 import com.myproject.fooddelivery.dto.LoginDto;
 import com.myproject.fooddelivery.exception.FoodDeliveryException;
 import com.myproject.fooddelivery.model.Customer;
+import com.myproject.fooddelivery.model.UserTable;
 import com.myproject.fooddelivery.repository.CustomerRepository;
 import com.myproject.fooddelivery.tools.EncryptTools;
 import com.myproject.fooddelivery.tools.ValidationTools;
@@ -41,6 +42,32 @@ public class CustomerServiceImpl implements CustomerService {
         validateSave(customerDto);
         Customer customer = convertFromDtoToCustomer(customerDto);
         customerRepository.save(customer);
+    }
+
+    @Override
+    public CustomerDto getCustomerDtoById(Integer id) throws FoodDeliveryException {
+        Customer customer = getCustomerById(id);
+        CustomerDto customerDto = CustomerDto.builder()
+                .id(customer.getId())
+                .firstName(customer.getFirstName())
+                .lastName(customer.getLastName())
+                .email(customer.getEmail())
+                .phoneNumber(customer.getPhoneNumber())
+                .address(customer.getAddress())
+                .userName(customer.getUserName())
+                .password(customer.getPassword())
+                .accountStatus(customer.getAccountStatus())
+                .build();
+
+        return customerDto;
+    }
+
+    private Customer getCustomerById(Integer id) throws FoodDeliveryException {
+        Customer customer = customerRepository.findById(id).orElseGet(null);
+        if (Objects.isNull(customer)) {
+            throw new FoodDeliveryException(ErrorCodes.USER_NOT_FOUND, "the customer is not exists");
+        }
+        return customer;
     }
 
     private Customer convertFromDtoToCustomer(CustomerDto customerDto) {

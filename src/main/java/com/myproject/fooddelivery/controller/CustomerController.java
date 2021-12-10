@@ -98,4 +98,39 @@ public class CustomerController {
         }
     }
 
+    //it is used in customer form
+    @GetMapping(path = "/edit/{id}")
+    public ModelAndView editCustomer(@PathVariable("id") Integer id, HttpServletRequest servletRequest) {
+        if (Objects.isNull(SessionTools.getCustomer(servletRequest))) {
+            return new ModelAndView("redirect:/customer/login");
+        }
+        try {
+            CustomerDto customerDto = customerService.getCustomerDtoById(id);
+            return new ModelAndView("customer/edit", new HashMap() {{
+                put("customer", customerDto);
+            }});
+        } catch (FoodDeliveryException e) {
+            return new ModelAndView("core/error", new HashMap() {{
+                put("code", e.getCode());
+                put("message", e.getMessage());
+            }});
+        }
+    }
+
+    @PostMapping(path = "/edit")
+    public ModelAndView edit(@ModelAttribute("customer") CustomerDto customerDto, HttpServletRequest servletRequest) {
+        if (Objects.isNull(SessionTools.getCustomer(servletRequest))) {
+            return new ModelAndView("redirect:/customer/login");
+        }
+        try {
+            customerService.save(customerDto);
+            return new ModelAndView("redirect:/customer/dashboard");
+        } catch (FoodDeliveryException e) {
+            return new ModelAndView("core/error", new HashMap() {{
+                put("code", e.getCode());
+                put("message", e.getMessage());
+            }});
+        }
+    }
+
 }

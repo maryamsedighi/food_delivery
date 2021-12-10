@@ -10,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 public class CustomerDto {
 
-    private Integer Id;
+    private Integer id;
     private String firstName;
     private String lastName;
     private String email;
