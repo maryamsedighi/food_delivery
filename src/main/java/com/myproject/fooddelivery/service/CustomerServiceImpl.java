@@ -5,7 +5,6 @@ import com.myproject.fooddelivery.dto.CustomerDto;
 import com.myproject.fooddelivery.dto.LoginDto;
 import com.myproject.fooddelivery.exception.FoodDeliveryException;
 import com.myproject.fooddelivery.model.Customer;
-import com.myproject.fooddelivery.model.UserTable;
 import com.myproject.fooddelivery.repository.CustomerRepository;
 import com.myproject.fooddelivery.tools.EncryptTools;
 import com.myproject.fooddelivery.tools.ValidationTools;
