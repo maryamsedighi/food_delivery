@@ -1,0 +1,38 @@
+[
+  {
+    "id": 2,
+    "account_status": "ACTIVE",
+    "address": "esfahan",
+    "email": "mary@gmail.com",
+    "first_name": "mary",
+    "last_name": "ss",
+    "password": "123456",
+    "phone_number": "243467",
+    "photo": null,
+    "user_name": "sss"
+  },
+  {
+    "id": 3,
+    "account_status": "ACTIVE",
+    "address": "esfahan",
+    "email": "mary@gmail.com",
+    "first_name": "mary",
+    "last_name": "ss",
+    "password": "123456",
+    "phone_number": "243467",
+    "photo": null,
+    "user_name": "trytu"
+  },
+  {
+    "id": 4,
+    "account_status": "ACTIVE",
+    "address": "esfahan",
+    "email": "mary@gmail.com",
+    "first_name": "mary",
+    "last_name": "ss",
+    "password": "123456",
+    "phone_number": "243467",
+    "photo": null,
+    "user_name": "sfd"
+  }
+]

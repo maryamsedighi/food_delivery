@@ -5,6 +5,7 @@ target/
 !**/src/test/**/target/
 tmp/
 src/main/resources/application.properties
+customer.json
 ### STS ###
 .apt_generated
 .classpath
