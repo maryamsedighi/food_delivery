@@ -46,27 +46,27 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDto getCustomerDtoById(Integer id) throws FoodDeliveryException {
         Customer customer = getCustomerById(id);
-        CustomerDto customerDto = CustomerDto.builder()
-                .id(customer.getId())
-                .firstName(customer.getFirstName())
-                .lastName(customer.getLastName())
-                .email(customer.getEmail())
-                .phoneNumber(customer.getPhoneNumber())
-                .address(customer.getAddress())
-                .userName(customer.getUserName())
-                .password(customer.getPassword())
-                .accountStatus(customer.getAccountStatus())
-                .build();
-
+        CustomerDto customerDto = new CustomerDto();
+        if (Objects.isNull(customer)) {
+            throw new FoodDeliveryException(ErrorCodes.USER_NOT_FOUND, "the user is not exists");
+        } else {
+            customerDto.builder()
+                    .id(customer.getId())
+                    .firstName(customer.getFirstName())
+                    .lastName(customer.getLastName())
+                    .email(customer.getEmail())
+                    .phoneNumber(customer.getPhoneNumber())
+                    .address(customer.getAddress())
+                    .userName(customer.getUserName())
+                    .password(customer.getPassword())
+                    .accountStatus(customer.getAccountStatus())
+                    .build();
+        }
         return customerDto;
     }
 
-    private Customer getCustomerById(Integer id) throws FoodDeliveryException {
-        Customer customer = customerRepository.findById(id).orElseGet(null);
-        if (Objects.isNull(customer)) {
-            throw new FoodDeliveryException(ErrorCodes.USER_NOT_FOUND, "the customer is not exists");
-        }
-        return customer;
+    private Customer getCustomerById(Integer id) {
+        return customerRepository.findById(id).orElse(null);
     }
 
     private Customer convertFromDtoToCustomer(CustomerDto customerDto) {
