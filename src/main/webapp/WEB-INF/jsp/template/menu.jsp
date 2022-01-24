@@ -1,5 +1,5 @@
-<%@ page import="com.myproject.fooddelivery.model.UserTable" %>
-<%@ page import="com.myproject.fooddelivery.code.FoodDeliveryCode" %>
+<%@ page import="com.myproject.stockApp.model.UserTable" %>
+<%@ page import="com.myproject.stockApp.code.StockCode" %>
 <%@ page import="java.util.Objects" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="sidebar" data-color="white" data-active-color="danger">
@@ -16,7 +16,7 @@
     <div class="sidebar-wrapper">
         <ul class="nav">
             <%
-                UserTable user = (UserTable) session.getAttribute(FoodDeliveryCode.USER_SESSION);
+                UserTable user = (UserTable) session.getAttribute(StockCode.USER_SESSION);
                 if (Objects.nonNull(user)) {
             %>
             <li class="active ">

@@ -9,11 +9,11 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.myProject</groupId>
-    <artifactId>foodDelivery</artifactId>
+    <artifactId>stockApp</artifactId>
     <version>0.0.1</version>
     <packaging>war</packaging>
-    <name>foodDelivery</name>
-    <description>foodDelivery</description>
+    <name>stockApp</name>
+    <description>this a REST Application which manages the product stock in an E-Shop</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>
