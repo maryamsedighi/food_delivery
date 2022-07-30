@@ -8,13 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 
 public class SessionTools {
     public static UserTable getUser(HttpServletRequest servletRequest) {
-        UserTable user = (UserTable) servletRequest.getSession().getAttribute(new FoodDeliveryCode().USER_SESSION);
-        return user;
+        return (UserTable) servletRequest.getSession().getAttribute(new FoodDeliveryCode().USER_SESSION);
     }
 
     public static Customer getCustomer(HttpServletRequest servletRequest) {
-        Customer customer = (Customer) servletRequest.getSession().getAttribute(new FoodDeliveryCode().USER_SESSION);
-        return customer;
+        return (Customer) servletRequest.getSession().getAttribute(new FoodDeliveryCode().USER_SESSION);
     }
 
     public static void setUser(HttpServletRequest servletRequest,Object user){
